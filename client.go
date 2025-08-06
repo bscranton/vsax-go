@@ -6,10 +6,10 @@ import (
 )
 
 type Client struct {
-	Key string
-	Token string
+	Key    string
+	Token  string
 	server string
-	c *resty.Client
+	c      *resty.Client
 }
 
 func NewClient(server string, key string, token string) Client {
@@ -17,7 +17,6 @@ func NewClient(server string, key string, token string) Client {
 	c.SetBasicAuth(key, token)
 	return Client{key, token, server, c}
 }
-
 
 func (vc *Client) GetAllDevices() (AllDevices, error) {
 	alldevs := AllDevices{}
