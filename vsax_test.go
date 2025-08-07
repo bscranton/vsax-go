@@ -1,7 +1,6 @@
 package vsax
 
 import (
-	"os"
 	"testing"
 	_ "github.com/joho/godotenv/autoload"
 )
@@ -25,3 +24,4 @@ func TestGetDevice(t *testing.T) {
 		os.Getenv("VSAX_CLIENT_TOKEN"))
 	device, err := vc.GetDevice("1e6aaa00-0d65-4767-a24d-71955fc57573")
 }
+

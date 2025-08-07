@@ -18,14 +18,27 @@ func NewClient(server string, key string, token string) Client {
 	return Client{key, token, server, c}
 }
 
-func (vc *Client) GetAllDevices() (AllDevices, error) {
-	alldevs := AllDevices{}
+func (vc *Client) GetAllDevices() (AllDevicesResult, error) {
+	alldevs := AllDevicesResult{}
 	_, err := vc.c.R().
 		SetResult(&alldevs).
 		Get(vc.server + "/api/v3/devices")
 	if err != nil {
 		fmt.Println(err)
-		return AllDevices{}, err
+		return nil, err
 	}
 	return alldevs, nil
 }
+
+func (vc *Client) GetDevice(deviceId string) (DeviceResult, error) {
+	device := DeviceResult{}
+	_, err := vc.c.R().
+		SetResult(&device).
+		Get(vc.server + "/api/v3/devices/" + deviceId)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	return device, nil
+}
+	
