@@ -6,8 +6,6 @@ import (
 )
 
 type Client struct {
-	Key    string
-	Token  string
 	server string
 	c      *resty.Client
 }
@@ -15,7 +13,7 @@ type Client struct {
 func NewClient(server string, key string, token string) Client {
 	c := resty.New()
 	c.SetBasicAuth(key, token)
-	return Client{key, token, server, c}
+	return Client{server, c}
 }
 
 func (vc *Client) GetAllDevices() (AllDevicesResult, error) {
@@ -25,7 +23,7 @@ func (vc *Client) GetAllDevices() (AllDevicesResult, error) {
 		Get(vc.server + "/api/v3/devices")
 	if err != nil {
 		fmt.Println(err)
-		return nil, err
+		return AllDevicesResult{}, err
 	}
 	return alldevs, nil
 }
@@ -37,8 +35,7 @@ func (vc *Client) GetDevice(deviceId string) (DeviceResult, error) {
 		Get(vc.server + "/api/v3/devices/" + deviceId)
 	if err != nil {
 		fmt.Println(err)
-		return nil, err
+		return DeviceResult{}, err
 	}
 	return device, nil
 }
-	
