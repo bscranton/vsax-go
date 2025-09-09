@@ -52,8 +52,8 @@ func (vc *Client) GetAllAssets() (AllAssetsResult, error) {
     _, err := vc.c.R().
         SetResult(&results).
         Get(vc.server + "/api/v3/assets?$top=" + strconv.Itoa(top) + 
-            "&skip=" + strconv.Itoa(skip) + 
-            "include=none")
+            "&$skip=" + strconv.Itoa(skip) + 
+            "&include=none")
     if err != nil {
         fmt.Println(err)
         return AllAssetsResult{}, err
@@ -67,15 +67,15 @@ func (vc *Client) GetAllAssets() (AllAssetsResult, error) {
     }
     
     for i := 1; i < iterations; i++ {
-        skip += top * i
+        skip = top * i
         _, err := vc.c.R().
             SetResult(&results).
             Get(vc.server + "/api/v3/assets?$top=" + strconv.Itoa(top) + 
-                "&skip=" + strconv.Itoa(skip) + 
-                "include=none")
+                "&$skip=" + strconv.Itoa(skip) + 
+                "&include=none")
         if err != nil {
             fmt.Println(err)
-            return AllAssetsResult{assets, results.Meta}, err
+            return AllAssetsResult{}, err
         }
         assets = append(assets, results.Data...)
     }
