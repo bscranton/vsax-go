@@ -33,7 +33,29 @@ func TestGetDevice(t *testing.T) {
 }
 
 func TestGetAllAssets(t *testing.T) {
+    vc := NewClient("https://stabilityit.vsax.net",
+		os.Getenv("VSAX_CLIENT_KEY"),
+		os.Getenv("VSAX_CLIENT_TOKEN"))
+	aa, err := vc.GetAllAssets()
+	if err != nil {
+        t.Log(err)
+		t.FailNow()
+	}
+	if aa.Meta.ResponseCode != 200 {
+        t.Log("ResponseCode != 200: ", aa.Meta.ResponseCode)
+		t.FailNow()
+	}
 }
 
 func TestGetAsset(t *testing.T) {
+    vc := NewClient("https://stabilityit.vsax.net",
+        os.Getenv("VSAX_CLIENT_KEY"),
+		os.Getenv("VSAX_CLIENT_TOKEN"))
+	asset, err := vc.GetAsset("1e6aaa00-0d65-4767-a24d-71955fc57573")
+	if err != nil {
+		t.FailNow()
+	}
+	if asset.Meta.ResponseCode != 200 {
+		t.FailNow()
+	}
 }

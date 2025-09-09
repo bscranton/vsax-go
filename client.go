@@ -2,6 +2,7 @@ package vsax
 
 import (
 	"fmt"
+    "strconv"
 	"resty.dev/v3"
 )
 
@@ -38,4 +39,59 @@ func (vc *Client) GetDevice(deviceId string) (DeviceResult, error) {
 		return DeviceResult{}, err
 	}
 	return device, nil
+}
+
+// This is not async and may take a *very* long time to finish.
+func (vc *Client) GetAllAssets() (AllAssetsResult, error) {
+    assets := []Asset{}
+    results := AllAssetsResult{}
+    total := 0
+    
+    top := 100
+    skip := 0
+    _, err := vc.c.R().
+        SetResult(&results).
+        Get(vc.server + "/api/v3/assets?$top=" + strconv.Itoa(top) + 
+            "&skip=" + strconv.Itoa(skip) + 
+            "include=none")
+    if err != nil {
+        fmt.Println(err)
+        return AllAssetsResult{}, err
+    }
+    
+    total = results.Meta.TotalCount
+    assets = append(assets, results.Data...)
+    iterations := total/top
+    if total % top > 0 {
+        iterations += 1
+    }
+    
+    for i := 1; i < iterations; i++ {
+        skip += top * i
+        _, err := vc.c.R().
+            SetResult(&results).
+            Get(vc.server + "/api/v3/assets?$top=" + strconv.Itoa(top) + 
+                "&skip=" + strconv.Itoa(skip) + 
+                "include=none")
+        if err != nil {
+            fmt.Println(err)
+            return AllAssetsResult{assets, results.Meta}, err
+        }
+        assets = append(assets, results.Data...)
+    }
+    
+    return AllAssetsResult{assets, results.Meta}, nil
+}
+    
+
+func (vc *Client) GetAsset(assetId string) (AssetResult,error) {
+    asset := AssetResult{}
+    _, err := vc.c.R().
+        SetResult(&asset).
+        Get(vc.server + "/api/v3/assets/" + assetId)
+    if err != nil {
+        fmt.Println(err)
+        return AssetResult{}, err
+    }
+    return asset, nil
 }

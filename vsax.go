@@ -118,21 +118,21 @@ type Asset struct {
 	MemoryUsage       int
 	MemoryTotal       int
 	FirewallEnabled   bool
-	AntivirusEnabled  bool
+	AntivirusEnabled  string
 	AntiVirusUpToDate string
 	UacEnabled        bool
 	Updates           AssetUpdates
 	AvailableUpdates  AssetAvailableUpdates
-	AssetInfo         AssetAssetInfo
+	AssetInfo         []AssetAssetInfo
 	PublicIpAddress   string
 	ComputerId        int
 	OrganizationId    int
 	SiteId            int
-	IpAddresses       AssetIpAddress
-	Disks             AssetDisk
-	InstalledSoftware AssetInstalledSoftware
-	LocalIpAddresses  AssetLocalIpAddress
-	Security          AssetSecurity
+	IpAddresses       []AssetIpAddress
+	Disks             []AssetDisk
+	InstalledSoftware []AssetInstalledSoftware
+	LocalIpAddresses  []AssetLocalIpAddress
+	Security          []AssetSecurity
 }
 
 type AllAssetsResult struct {
