@@ -144,3 +144,27 @@ type AssetResult struct {
 	Data Asset
 	Meta Metadata
 }
+
+type AccessItem struct {
+	TeamName    string
+	AccessLevel string
+}
+
+type Organization struct {
+	Id              int
+	Name            string
+	HasCustomFields bool
+	PsaMappingId    int
+	PsaMappingType  string
+	Access          []AccessItem
+}
+
+type OrganizationResult struct {
+	Data Organization
+	Meta Metadata
+}
+
+type AllOrganizationsResult struct {
+	Data []Organization
+	Meta Metadata
+}

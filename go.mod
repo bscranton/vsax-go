@@ -1,4 +1,4 @@
-module github.com/bscranton/vsax-go
+module vsax
 
 go 1.24.5
 
