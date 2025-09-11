@@ -124,6 +124,7 @@ func (vc *Client) GetAllOrganizations() (AllOrganizationsResult, error) {
 		iterations += 1
 	}
 	for i := 1; i < iterations; i++ {
+        result := AllOrganizationsResult{}
 		skip = top * i
 		_, err := vc.c.R().
 			SetResult(&result).
