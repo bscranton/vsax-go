@@ -36,7 +36,7 @@ func TestGetAllAssets(t *testing.T) {
 	vc := NewClient("https://stabilityit.vsax.net",
 		os.Getenv("VSAX_CLIENT_KEY"),
 		os.Getenv("VSAX_CLIENT_TOKEN"))
-	aa, err := vc.GetAllAssets()
+	aa, err := vc.GetAllAssets("none")
 	if err != nil {
 		t.Log(err)
 		t.FailNow()
@@ -64,7 +64,7 @@ func TestGetAllOrganizations(t *testing.T) {
 	vc := NewClient("https://stabilityit.vsax.net",
 		os.Getenv("VSAX_CLIENT_KEY"),
 		os.Getenv("VSAX_CLIENT_TOKEN"))
-	aa, err := vc.GetAllOrganizations("none")
+	aa, err := vc.GetAllOrganizations()
 	if err != nil {
 		t.Log(err)
 		t.FailNow()
