@@ -67,6 +67,7 @@ func (vc *Client) GetAllAssets(include string) (AllAssetsResult, error) {
 	}
 
 	for i := 1; i < iterations; i++ {
+        results := AllAssetsResult{}
 		skip = top * i
 		_, err := vc.c.R().
 			SetResult(&results).
